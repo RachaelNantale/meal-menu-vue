@@ -22,7 +22,9 @@
                         </ul>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn color="green" dark>Order</v-btn>
+                        <v-btn color="green" dark @click="orderRecipe(item)"
+                            >Order</v-btn
+                        >
                     </v-card-actions>
                 </v-card>
             </v-flex>
@@ -36,6 +38,18 @@ export default {
     computed: {
         recipes() {
             return this.$store.state.recipes;
+        },
+        isAuthenticated() {
+            return this.$store.getters.isAuthenticated;
+        }
+    },
+    methods: {
+        orderRecipe(item) {
+            if (this.isAuthenticated) {
+                this.$store.dispatch('addRecipe', item);
+            } else {
+                this.$router.push('/login');
+            }
         }
     }
 };
